@@ -1,0 +1,7 @@
+# Ignore objects and temporaries
+*.o
+*.o.tmp
+*.ll
+
+# Ignore Vim undo files
+*.un~

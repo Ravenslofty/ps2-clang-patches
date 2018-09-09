@@ -1,0 +1,55 @@
+commit bf11a875a66cc8b43d204f2b0a42b04c8c00db92
+Author: Dan Ravensloft <dan.ravensloft@gmail.com>
+Date:   Sun Sep 9 10:30:46 2018 +0000
+
+    Add the PS2 as a target
+    
+    The PS2 has a bare-metal ELF ABI and a 64-bit long double. Adding
+    these resolves ABI issues that cause asserts in the compiler.
+
+diff --git a/include/llvm/ADT/Triple.h b/include/llvm/ADT/Triple.h
+index 76fe6d38f2d..7f42038e339 100644
+--- a/include/llvm/ADT/Triple.h
++++ b/include/llvm/ADT/Triple.h
+@@ -183,7 +183,8 @@ public:
+     Contiki,
+     AMDPAL,     // AMD PAL Runtime
+     HermitCore, // HermitCore Unikernel/Multikernel
+-    LastOSType = HermitCore
++    PS2,
++    LastOSType = PS2
+   };
+   enum EnvironmentType {
+     UnknownEnvironment,
+diff --git a/include/llvm/MC/MCELFObjectWriter.h b/include/llvm/MC/MCELFObjectWriter.h
+index f226d6a45a5..cda41b1c5be 100644
+--- a/include/llvm/MC/MCELFObjectWriter.h
++++ b/include/llvm/MC/MCELFObjectWriter.h
+@@ -74,6 +74,7 @@ public:
+     switch (OSType) {
+       case Triple::CloudABI:
+         return ELF::ELFOSABI_CLOUDABI;
++      case Triple::PS2:
+       case Triple::HermitCore:
+         return ELF::ELFOSABI_STANDALONE;
+       case Triple::PS4:
+diff --git a/lib/Support/Triple.cpp b/lib/Support/Triple.cpp
+index d1017fb2a28..c62659fe55f 100644
+--- a/lib/Support/Triple.cpp
++++ b/lib/Support/Triple.cpp
+@@ -210,6 +210,7 @@ StringRef Triple::getOSTypeName(OSType Kind) {
+   case Contiki: return "contiki";
+   case AMDPAL: return "amdpal";
+   case HermitCore: return "hermit";
++  case PS2: return "ps2";
+   }
+ 
+   llvm_unreachable("Invalid OSType");
+@@ -504,6 +505,7 @@ static Triple::OSType parseOS(StringRef OSName) {
+     .StartsWith("contiki", Triple::Contiki)
+     .StartsWith("amdpal", Triple::AMDPAL)
+     .StartsWith("hermit", Triple::HermitCore)
++    .StartsWith("ps2", Triple::PS2)
+     .Default(Triple::UnknownOS);
+ }
+ 

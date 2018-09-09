@@ -1,0 +1,70 @@
+commit 76d91e1b049709c70221a5523903ce986c562dc6
+Author: Dan Ravensloft <dan.ravensloft@gmail.com>
+Date:   Fri Sep 7 19:05:39 2018 +0000
+
+    [MIPS] Fix illegal type assert in single-float mode
+    
+    An fp_to_sint node would be incorrectly lowered to a TruncIntFP
+    node in single-float mode.
+    
+    Many thanks to Tim Northover for helping me through this.
+
+diff --git a/lib/Target/Mips/MipsISelLowering.cpp b/lib/Target/Mips/MipsISelLowering.cpp
+index 0677d378a11..104fa4090ec 100644
+--- a/lib/Target/Mips/MipsISelLowering.cpp
++++ b/lib/Target/Mips/MipsISelLowering.cpp
+@@ -2563,10 +2563,12 @@ static SDValue lowerUnalignedIntStore(StoreSDNode *SD, SelectionDAG &DAG,
+ }
+ 
+ // Lower (store (fp_to_sint $fp) $ptr) to (store (TruncIntFP $fp), $ptr).
+-static SDValue lowerFP_TO_SINT_STORE(StoreSDNode *SD, SelectionDAG &DAG) {
++static SDValue lowerFP_TO_SINT_STORE(StoreSDNode *SD, SelectionDAG &DAG,
++                                     bool SingleFloat) {
+   SDValue Val = SD->getValue();
+ 
+-  if (Val.getOpcode() != ISD::FP_TO_SINT)
++  if (Val.getOpcode() != ISD::FP_TO_SINT ||
++      (Val.getValueSizeInBits() > 32 && SingleFloat))
+     return SDValue();
+ 
+   EVT FPTy = EVT::getFloatingPointVT(Val.getValueSizeInBits());
+@@ -2587,7 +2589,7 @@ SDValue MipsTargetLowering::lowerSTORE(SDValue Op, SelectionDAG &DAG) const {
+       ((MemVT == MVT::i32) || (MemVT == MVT::i64)))
+     return lowerUnalignedIntStore(SD, DAG, Subtarget.isLittle());
+ 
+-  return lowerFP_TO_SINT_STORE(SD, DAG);
++  return lowerFP_TO_SINT_STORE(SD, DAG, Subtarget.isSingleFloat());
+ }
+ 
+ SDValue MipsTargetLowering::lowerEH_DWARF_CFA(SDValue Op,
+@@ -2603,6 +2605,9 @@ SDValue MipsTargetLowering::lowerEH_DWARF_CFA(SDValue Op,
+ 
+ SDValue MipsTargetLowering::lowerFP_TO_SINT(SDValue Op,
+                                             SelectionDAG &DAG) const {
++  if (Op.getValueSizeInBits() > 32 && Subtarget.isSingleFloat())
++    return SDValue();
++
+   EVT FPTy = EVT::getFloatingPointVT(Op.getValueSizeInBits());
+   SDValue Trunc = DAG.getNode(MipsISD::TruncIntFP, SDLoc(Op), FPTy,
+                               Op.getOperand(0));
+diff --git a/test/CodeGen/Mips/f32-to-i64-single-float.ll b/test/CodeGen/Mips/f32-to-i64-single-float.ll
+new file mode 100644
+index 00000000000..6a8ba952789
+--- /dev/null
++++ b/test/CodeGen/Mips/f32-to-i64-single-float.ll
+@@ -0,0 +1,15 @@
++; RUN: llc -march=mips64el -mattr=+single-float < %s
++
++define void @foo(float* %in, i64* %out) #0 {
++entry:
++  %in.addr = alloca float*, align 8
++  %out.addr = alloca i64*, align 8
++  store float* %in, float** %in.addr, align 8
++  store i64* %out, i64** %out.addr, align 8
++  %0 = load float*, float** %in.addr, align 8
++  %1 = load float, float* %0, align 4
++  %conv = fptosi float %1 to i64
++  %2 = load i64*, i64** %out.addr, align 8
++  store i64 %conv, i64* %2, align 8
++  ret void
++}

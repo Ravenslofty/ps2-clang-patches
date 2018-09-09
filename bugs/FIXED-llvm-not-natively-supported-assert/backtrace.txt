@@ -1,0 +1,42 @@
+0.      Program arguments: /media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/clang -cc1 -triple mips64el-img-linux -emit-obj -mrelax-all -disable-free -main-file-name ldtoa.c -mrelocation-model pic -pic-level 1 -mt
+hread-model posix -mdisable-fp-elim -fmath-errno -mconstructor-aliases -fuse-init-array -target-cpu mips3 -target-feature -noabicalls -target-feature +single-float -target-abi n64 -mfloat-abi hard -dwarf-column-info -debugger-tuning=gd
+b -coverage-notes-file /media/tatokis/Lain/lainux/ps2clang/newlib-3.0.0.20180802/build/mips3el-none-elf/newlib/libc/stdlib/lib_a-ldtoa.gcno -resource-dir /media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/lib/clang/8.0.
+4089 -isystem /media/tatokis/Lain/lainux/ps2clang/newlib-3.0.0.20180802/build/mips3el-none-elf/newlib/targ-include -isystem /media/tatokis/Lain/lainux/ps2clang/newlib-3.0.0.20180802/newlib/libc/include -D PACKAGE_NAME="newlib" -D PACKA
+GE_TARNAME="newlib" -D PACKAGE_VERSION="3.0.0" -D PACKAGE_STRING="newlib 3.0.0" -D PACKAGE_BUGREPORT="" -D PACKAGE_URL="" -I . -I ../../../../../newlib/libc/stdlib -D MISSING_SYSCALL_NAMES -D HAVE_INIT_FINI -I /media/tatokis/Lain/lainu
+x/ps2clang/ee/lib/clang/7.0.0/include/ -internal-isystem /usr/local/include -internal-isystem /media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/lib/clang/8.0.4089/include -internal-externc-isystem /include -internal-ex
+ternc-isystem /usr/include -fdebug-compilation-dir /media/tatokis/Lain/lainux/ps2clang/newlib-3.0.0.20180802/build/mips3el-none-elf/newlib/libc/stdlib -ferror-limit 19 -fmessage-length 235 -fno-builtin -fobjc-runtime=gcc -fdiagnostics-
+show-option -fcolor-diagnostics -o lib_a-ldtoa.o -x c ../../../../../newlib/libc/stdlib/ldtoa.c -faddrsig
+1.      <eof> parser at end of file
+2.      Code generation
+3.      Running pass 'Function Pass Manager' on module '../../../../../newlib/libc/stdlib/ldtoa.c'.
+4.      Running pass 'MIPS DAG->DAG Pattern Instruction Selection' on function '@_ldtoa_r'
+#0 0x00007f26eaf8bb1d PrintStackTraceSignalHandler(void*) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x1533b1d)
+#1 0x00007f26eaf8984e llvm::sys::RunSignalHandlers() (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x153184e)
+#2 0x00007f26eaf8bc92 SignalHandler(int) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x1533c92)
+#3 0x00007f26ecab9390 __restore_rt (/lib/x86_64-linux-gnu/libpthread.so.0+0x11390)
+#4 0x00007f26e93ad428 gsignal /build/glibc-Cl5G7W/glibc-2.23/signal/../sysdeps/unix/sysv/linux/raise.c:54:0
+#5 0x00007f26e93af02a abort /build/glibc-Cl5G7W/glibc-2.23/stdlib/abort.c:91:0
+#6 0x00007f26e93a5bd7 __assert_fail_base /build/glibc-Cl5G7W/glibc-2.23/assert/assert.c:92:0
+#7 0x00007f26e93a5c82 (/lib/x86_64-linux-gnu/libc.so.6+0x2dc82)
+#8 0x00007f26eb49691f (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x1a3e91f)
+#9 0x00007f26ec6984a7 llvm::MipsTargetLowering::LowerFormalArguments(llvm::SDValue, unsigned int, bool, llvm::SmallVectorImpl<llvm::ISD::InputArg> const&, llvm::SDLoc const&, llvm::SelectionDAG&, llvm::SmallVectorImpl<llvm::SDValue>&)
+const (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x2c404a7)
+#10 0x00007f26eb663d8e llvm::SelectionDAGISel::LowerArguments(llvm::Function const&) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x1c0bd8e)
+#11 0x00007f26eb6c7966 llvm::SelectionDAGISel::SelectAllBasicBlocks(llvm::Function const&) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x1c6f966)
+#12 0x00007f26eb6c5926 llvm::SelectionDAGISel::runOnMachineFunction(llvm::MachineFunction&) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x1c6d926)
+#13 0x00007f26ec68299a llvm::MipsDAGToDAGISel::runOnMachineFunction(llvm::MachineFunction&) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x2c2a99a)
+#14 0x00007f26eb2c8958 llvm::MachineFunctionPass::runOnFunction(llvm::Function&) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x1870958)
+#15 0x00007f26eb0ceafc llvm::FPPassManager::runOnFunction(llvm::Function&) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x1676afc)
+#16 0x00007f26eb0ced88 llvm::FPPassManager::runOnModule(llvm::Module&) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x1676d88)
+#17 0x00007f26eb0cf217 llvm::legacy::PassManagerImpl::run(llvm::Module&) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/../lib/libLLVM-8svn.so+0x1677217)
+#18 0x0000000000b9527f clang::EmitBackendOutput(clang::DiagnosticsEngine&, clang::HeaderSearchOptions const&, clang::CodeGenOptions const&, clang::TargetOptions const&, clang::LangOptions const&, llvm::DataLayout const&, llvm::Module*,
+ clang::BackendAction, std::__1::unique_ptr<llvm::raw_pwrite_stream, std::__1::default_delete<llvm::raw_pwrite_stream> >) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/clang+0xb9527f)
+ #19 0x000000000114d5ee clang::BackendConsumer::HandleTranslationUnit(clang::ASTContext&) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/clang+0x114d5ee)
+ #20 0x000000000126a633 clang::ParseAST(clang::Sema&, bool, bool) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/clang+0x126a633)
+ #21 0x00000000010a69b4 clang::FrontendAction::Execute() (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/clang+0x10a69b4)
+ #22 0x000000000101c6c1 clang::CompilerInstance::ExecuteAction(clang::FrontendAction&) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/clang+0x101c6c1)
+ #23 0x0000000001148555 clang::ExecuteCompilerInvocation(clang::CompilerInstance*) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/clang+0x1148555)
+ #24 0x0000000000b3f571 cc1_main(llvm::ArrayRef<char const*>, char const*, void*) (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/clang+0xb3f571)
+ #25 0x0000000000b3d458 main (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/clang+0xb3d458)
+ #26 0x00007f26e9398830 __libc_start_main /build/glibc-Cl5G7W/glibc-2.23/csu/../csu/libc-start.c:325:0
+ #27 0x0000000000b3a029 _start (/media/tatokis/Lain/lainux/ps2clang/kristina-clang/clang8-x86-mips/bin/clang+0xb3a029)

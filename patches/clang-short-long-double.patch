@@ -1,0 +1,23 @@
+commit 034405aa39694b67529b6d7e0124805f4079b746
+Author: Dan Ravensloft <dan.ravensloft@gmail.com>
+Date:   Sun Sep 9 10:35:58 2018 +0000
+
+    Set a 64-bit long double when targeting the PS2
+    
+    This resolves multiple asserts when using long double, because the
+    MIPS N64 ABI requires 128-bit long double, which is not implemented
+    in LLVM.
+
+diff --git a/lib/Basic/Targets/Mips.h b/lib/Basic/Targets/Mips.h
+index fd1db5aa23..aa55df16d1 100644
+--- a/lib/Basic/Targets/Mips.h
++++ b/lib/Basic/Targets/Mips.h
+@@ -127,7 +127,7 @@ public:
+   void setN32N64ABITypes() {
+     LongDoubleWidth = LongDoubleAlign = 128;
+     LongDoubleFormat = &llvm::APFloat::IEEEquad();
+-    if (getTriple().getOS() == llvm::Triple::FreeBSD) {
++    if (getTriple().getOS() == llvm::Triple::FreeBSD || getTriple().getOS() == llvm::Triple::PS2) {
+       LongDoubleWidth = LongDoubleAlign = 64;
+       LongDoubleFormat = &llvm::APFloat::IEEEdouble();
+     }
