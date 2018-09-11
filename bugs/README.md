@@ -7,5 +7,7 @@ These are all caused by the MIPS N64 ABI requiring 128-bit `long double`, which 
 ### `llvm-not-natively-supported-assert`
 The MIPS optimiser contains a pass which tries to convert a `float` to `long long` conversion into a MIPS `trunc.l.s` instruction, which isn't implemented in the PS2 because a `long long` won't fit in the 32-bit `float` registers. The solution is to disable this optimisation by returning a dummy `SDValue`. LLVM then does the conversion work itself.
 
+My patch for this was upstreamed as LLVM r341952.
+
 ### `llvm-segfault`
 This doesn't currently have a fix, but the bug is that LLVM wants to produce a `cvt.s.l`, which requires a 64-bit FPU register which the PS2 doesn't have, and then crashes because you can't register allocate over zero available registers.
